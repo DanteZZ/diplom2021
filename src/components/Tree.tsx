@@ -4,7 +4,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import {FileTypes,FileTree} from "../interfaces";
+import {FileTypes,IFileTree} from "../interfaces";
 
 import FolderIcon from '@material-ui/icons/FolderOutlined'
 import DescriptionIcon from '@material-ui/icons/DescriptionOutlined'
@@ -18,10 +18,12 @@ const useStyles = makeStyles({
 });
 
 type PropsTree = {
-    files: FileTree[]
+    files: IFileTree[],
+    selFile: Function
 }
 type PropsTreeItem = {
-    items: FileTree[]
+    items: IFileTree[],
+    selFile: Function
 }
 
 const iconList:any[] = [
@@ -29,25 +31,27 @@ const iconList:any[] = [
     <DescriptionIcon/>
 ];
 
-const FileTreeItem: React.FC<PropsTreeItem>  = ({items}) => {
-
+const FileTreeItem: React.FC<PropsTreeItem>  = ({items, selFile}) => {
     return (
         <Fragment>
-            {items.map((item,i)=><TreeItem key={i} onClick={
+            {items.map((item,i)=>
+            <TreeItem key={i} onClick={
                 (e)=>{
                     if (item.path) {
-                        console.log(item);
+                        selFile(item);
                     }
                 }
-            } nodeId={item.id.toString()} label={
+            } nodeId={item.id.toString()}
+            label={
                 <Fragment>{iconList[item.type]} {item.title}</Fragment>
-            }>{item.childs ? <FileTreeItem items={item.childs}/> : "" }</TreeItem>)}
+            }>{item.childs ? <FileTreeItem selFile={selFile} items={item.childs}/> : "" }
+            </TreeItem>)}
         </Fragment>
     );
 };
 
 
-export const Tree: React.FC<PropsTree> = ({files}) => {
+export const Tree: React.FC<PropsTree> = ({files, selFile}) => {
   const classes = useStyles();
   return (
     <TreeView
@@ -55,7 +59,7 @@ export const Tree: React.FC<PropsTree> = ({files}) => {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      <FileTreeItem items={files}></FileTreeItem>
+      <FileTreeItem selFile={selFile} items={files}></FileTreeItem>
     </TreeView>
   );
 }
