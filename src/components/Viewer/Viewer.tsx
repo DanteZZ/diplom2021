@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import { CircularProgress, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { FileTypes, IFileTree } from "../../interfaces";
+import { IFileTree } from "../../interfaces";
+import { FileTypes, Labels } from "../../enums";
 
 const useStyles = makeStyles(() => ({
   iframe: {
@@ -35,9 +36,9 @@ export const Viewer: React.FC<PropsViewer> = ({ file }) => {
       return (
         <Fragment>
           <Typography variant="h5" component="h5">
-            Загрузка документа...  
+            {Labels.DocLoading}...  
           </Typography>
-          <CircularProgress />;
+          <CircularProgress />
         </Fragment>
       );
     } else {

@@ -1,6 +1,8 @@
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join, extname, basename } from "path";
-import { FileTypes, IFileTree, IConfig } from "../interfaces";
+import { IFileTree, IConfig } from "../interfaces";
+import { FileTypes } from "../enums";
+
 import wordToPdf from "./docto";
 import _path from "path";
 var fileInd: number = 0;

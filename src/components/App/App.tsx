@@ -4,9 +4,11 @@ import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/styles";
 import { Tree } from "../Tree/Tree";
 import { Viewer } from "../Viewer/Viewer";
-import { getFiles, getConfig, getWordFile } from "../../libs/fs";
-import { FileTypes, IFileTree } from "../../interfaces";
 import { Nav } from "../Nav/Nav";
+
+import { getFiles, getConfig, getWordFile } from "../../libs/fs";
+import { IFileTree } from "../../interfaces";
+import { FileTypes, Labels } from "../../enums";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -92,7 +94,7 @@ const App: React.FC = () => {
             {Files.length ? (
               <Tree files={Files} selFile={selectFile}></Tree>
             ) : (
-              <Alert severity="info">Загрузка файлов</Alert>
+              <Alert severity="info">{Labels.TreeLoading}</Alert>
             )}
           </div>
         </Grid>

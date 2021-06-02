@@ -28,7 +28,7 @@ const iconList: any[] = [
   <ImageIcon />,
 ];
 
-export const FileTreeItem: React.FC<PropsTreeItem> = ({ items, selFile }) => {
+export const FileItem: React.FC<PropsTreeItem> = ({ items, selFile }) => {
   return (
     <Fragment>
       {items.map((item, i) => (
@@ -47,7 +47,7 @@ export const FileTreeItem: React.FC<PropsTreeItem> = ({ items, selFile }) => {
           }
         >
           {item.childs ? (
-            <FileTreeItem selFile={selFile} items={item.childs} />
+            <FileItem selFile={selFile} items={item.childs} />
           ) : (
             ""
           )}

@@ -1,12 +1,3 @@
-export enum FileTypes {
-  dir,
-  word,
-  pdf,
-  html,
-  video,
-  audio,
-  image,
-}
 export interface IFileTree {
   id: number;
   type: number;

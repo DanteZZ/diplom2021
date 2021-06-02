@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 /* КОМПОНЕНТЫ */
 import TreeView from "@material-ui/lab/TreeView";
-import { FileTreeItem } from "./FileTreeItem";
+import { FileItem } from "./FileItem";
 
 /* ИКОНКИ */
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -32,7 +32,7 @@ export const Tree: React.FC<PropsTree> = ({ files, selFile }) => {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      <FileTreeItem selFile={selFile} items={files}></FileTreeItem>
+      <FileItem selFile={selFile} items={files} />
     </TreeView>
   );
 };
