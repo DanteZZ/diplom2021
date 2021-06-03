@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 
 /* КОМПОНЕНТЫ */
 
@@ -8,8 +8,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
 
 import { Labels } from "../../enums";
+import AppContext from "../App/AppContext";
 
 type NavOptions = {
   open: boolean;
@@ -17,6 +19,11 @@ type NavOptions = {
 };
 
 export const NavOptions: React.FC<NavOptions> = ({ open, closeHandler }) => {
+  const { updateConfigs, updateConfigPath, path } = useContext(AppContext);
+  const saveHandler = (): void => {
+    updateConfigs();
+    closeHandler();
+  };
   return (
     <Fragment>
       <Dialog
@@ -28,14 +35,22 @@ export const NavOptions: React.FC<NavOptions> = ({ open, closeHandler }) => {
         <DialogTitle id="alert-dialog-title">{Labels.Options}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
+            Не меняйте данный путь без необходимости!!!
           </DialogContentText>
-          <input type="file"></input>
+          <TextField
+            id="outlined-basic"
+            label={Labels.PathInput}
+            fullWidth
+            variant="outlined"
+            value={path}
+            onChange={(e) => {
+              updateConfigPath(e.target.value);
+            }}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={closeHandler} color="primary" autoFocus>
-            {Labels.Apply}
+            {Labels.Save}
           </Button>
         </DialogActions>
       </Dialog>

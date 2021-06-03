@@ -4,12 +4,12 @@ import React, { Fragment } from "react";
 import TreeItem from "@material-ui/lab/TreeItem";
 
 /* ИКОНКИ */
-import FolderIcon from "@material-ui/icons/FolderOutlined";
-import DescriptionIcon from "@material-ui/icons/DescriptionOutlined";
-import LanguageIcon from "@material-ui/icons/LanguageOutlined";
-import MovieIcon from "@material-ui/icons/MovieOutlined";
-import AudioIcon from "@material-ui/icons/AudiotrackOutlined";
-import ImageIcon from "@material-ui/icons/ImageOutlined";
+import FolderIcon from "@material-ui/icons/Folder";
+import DescriptionIcon from "@material-ui/icons/Description";
+import LanguageIcon from "@material-ui/icons/Language";
+import MovieIcon from "@material-ui/icons/Movie";
+import AudioIcon from "@material-ui/icons/Audiotrack";
+import ImageIcon from "@material-ui/icons/Image";
 
 import { IFileTree } from "../../interfaces";
 
@@ -40,6 +40,7 @@ export const FileItem: React.FC<PropsTreeItem> = ({ items, selFile }) => {
             }
           }}
           nodeId={item.id.toString()}
+          style={{ color: "rgb(70 70 70)" }}
           label={
             <Fragment>
               {iconList[item.type]} {item.title}

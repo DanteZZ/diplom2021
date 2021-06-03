@@ -2,13 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Grid, Paper, Theme } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/styles";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import tgreen from "@material-ui/core/colors/green";
+
 import { Tree } from "../Tree/Tree";
 import { Viewer } from "../Viewer/Viewer";
 import { Nav } from "../Nav/Nav";
 
-import { getFiles, getConfig, getWordFile } from "../../libs/fs";
+import { getFiles, getConfig, getWordFile, updateConfig } from "../../libs/fs";
 import { IFileTree } from "../../interfaces";
 import { FileTypes, Labels } from "../../enums";
+import AppContext from "./AppContext";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: tgreen[500],
+    },
+    secondary: {
+      main: tgreen[500],
+    },
+  },
+});
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -55,9 +70,19 @@ const App: React.FC = () => {
     useState<IFileTree | null | undefined>(undefined);
   const [Files, setFiles] = useState<IFileTree[]>([]);
 
-  const updateConfigs = (): void => {
+  const loadConfigs = (): void => {
     let res = getConfig();
-    setConfigs({ ...configs, path: res.path });
+    if (res) {
+      setConfigs({ ...configs, path: res.path });
+    }
+  };
+
+  const updateConfigs = (): void => {
+    updateConfig(configs);
+  };
+
+  const updateConfigPath = (path: string): void => {
+    setConfigs({ ...configs, path: path });
   };
 
   const selectFile = (file: IFileTree): void => {
@@ -76,35 +101,43 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setFiles(getFiles(configs.path));
+      if (configs.path !== "") {
+        setFiles(getFiles(configs.path));
+      }
     }, 200);
   }, [configs]);
 
   useEffect(() => {
-    updateConfigs();
+    loadConfigs();
   }, []);
 
   return (
-    <div className={classes.menuLabel}>
-      <Nav />
-      <Grid container spacing={3} className={classes.container}>
-        <Grid item xs={3} className={classes.item}>
-          <h3>Список</h3>
-          <div className={classes.treeWrapper}>
-            {Files.length ? (
-              <Tree files={Files} selFile={selectFile}></Tree>
-            ) : (
-              <Alert severity="info">{Labels.TreeLoading}</Alert>
-            )}
-          </div>
-        </Grid>
-        <Grid item xs={9}>
-          <Paper className={classes.wrapperViewer}>
-            <Viewer file={selFile}></Viewer>
-          </Paper>
-        </Grid>
-      </Grid>
-    </div>
+    <AppContext.Provider
+      value={{ updateConfigs, updateConfigPath, path: configs.path }}
+    >
+      <ThemeProvider theme={theme}>
+        <div className={classes.menuLabel}>
+          <Nav />
+          <Grid container spacing={3} className={classes.container}>
+            <Grid item xs={3} className={classes.item}>
+              <h3>Список</h3>
+              <div className={classes.treeWrapper}>
+                {Files.length ? (
+                  <Tree files={Files} selFile={selectFile}></Tree>
+                ) : (
+                  <Alert severity="info">{Labels.TreeLoading}</Alert>
+                )}
+              </div>
+            </Grid>
+            <Grid item xs={9}>
+              <Paper className={classes.wrapperViewer}>
+                <Viewer file={selFile}></Viewer>
+              </Paper>
+            </Grid>
+          </Grid>
+        </div>
+      </ThemeProvider>
+    </AppContext.Provider>
   );
 };
 

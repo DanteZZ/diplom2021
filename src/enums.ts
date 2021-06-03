@@ -12,7 +12,8 @@ export enum Labels {
   Menu = "Меню",
   DocLoading = "Загрузка документов",
   TreeLoading = "Загрузка файлов",
-  Options = "Опции",
+  Options = "Настройки",
   Close = "Закрыть",
-  Apply = "Принять",
+  Save = "Сохранить",
+  PathInput = "Путь к метод. файлам",
 }

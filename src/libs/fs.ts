@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from "fs";
+import { readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { join, extname, basename } from "path";
 import { IFileTree, IConfig } from "../interfaces";
 import { FileTypes } from "../enums";
@@ -99,8 +99,16 @@ const isCanFile = (path: string): IFileTree | false => {
   };
 };
 
-const getConfig = (): IConfig => {
-  return JSON.parse(readFileSync("./config.json", "utf-8"));
+const getConfig = (): IConfig | false => {
+  try {
+    return JSON.parse(readFileSync("./config.json", "utf-8"));
+  } catch (e) {
+    return false;
+  }
+};
+
+const updateConfig = (config: Object): void => {
+  writeFileSync("./config.json", JSON.stringify(config));
 };
 
 const getFiles = (dir: string): IFileTree[] => {
@@ -133,4 +141,4 @@ const getFiles = (dir: string): IFileTree[] => {
   return files_;
 };
 
-export { getConfig, getFiles, getWordFile };
+export { getConfig, getFiles, getWordFile, updateConfig };

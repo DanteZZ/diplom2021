@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexGrow: 1,
     height: "100%",
   },
+  white: {
+    color: "white",
+  },
 }));
 
 export const Nav: React.FC = () => {
@@ -33,13 +36,13 @@ export const Nav: React.FC = () => {
 
   return (
     <Fragment>
-      <AppBar>
+      <AppBar className={classes.white}>
         <Toolbar>
           <Typography className={classes.menuLabel} variant="h6">
             {Labels.SiteName}
           </Typography>
           <IconButton onClick={handleOptOpen}>
-            <SettingsIcon></SettingsIcon>
+            <SettingsIcon className={classes.white}></SettingsIcon>
           </IconButton>
         </Toolbar>
       </AppBar>
