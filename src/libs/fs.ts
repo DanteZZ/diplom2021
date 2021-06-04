@@ -7,6 +7,8 @@ import wordToPdf from "./docto";
 import _path from "path";
 var fileInd: number = 0;
 
+_path.dirname(process.execPath);
+
 const getWordFile = (path: string, callback: Function): void => {
   wordToPdf(path, "./temp.pdf").then(() => {
     callback(_path.join(process.cwd(), "temp.pdf"));
@@ -101,14 +103,22 @@ const isCanFile = (path: string): IFileTree | false => {
 
 const getConfig = (): IConfig | false => {
   try {
-    return JSON.parse(readFileSync("./config.json", "utf-8"));
+    return JSON.parse(
+      readFileSync(
+        _path.join(_path.dirname(process.execPath), "/config.json"),
+        "utf-8"
+      )
+    );
   } catch (e) {
     return false;
   }
 };
 
 const updateConfig = (config: Object): void => {
-  writeFileSync("./config.json", JSON.stringify(config));
+  writeFileSync(
+    _path.join(_path.dirname(process.execPath), "/config.json"),
+    JSON.stringify(config)
+  );
 };
 
 const getFiles = (dir: string): IFileTree[] => {

@@ -47,6 +47,9 @@ export const NavOptions: React.FC<NavOptions> = ({ open, closeHandler }) => {
               setTreeDir(e.target.value);
             }}
           />
+          <DialogContentText>
+            Разработкой занимались: Олег Тагильцев, Пётр Маршал
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={saveHandler} color="primary" autoFocus>
