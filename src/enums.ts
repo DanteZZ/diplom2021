@@ -16,4 +16,5 @@ export enum Labels {
   Close = "Закрыть",
   Save = "Сохранить",
   PathInput = "Путь к метод. файлам",
+  TreeTitle = "Список материалов",
 }

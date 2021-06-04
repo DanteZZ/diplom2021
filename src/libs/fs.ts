@@ -117,27 +117,29 @@ const getFiles = (dir: string): IFileTree[] => {
     return files_;
   }
 
-  var files = readdirSync(dir);
-  for (var i in files) {
-    let path: string = join(dir, "/" + files[i]);
-    let type: number = 0;
-    if (statSync(path).isDirectory()) {
-      getFiles(path);
-      files_.push({
-        id: fileInd,
-        type: type,
-        title: files[i],
-        childs: getFiles(path),
-        path: "",
-      });
-    } else {
-      let file = isCanFile(path);
-      if (file) {
-        files_.push({ ...file, id: fileInd });
+  try {
+    var files = readdirSync(dir);
+    for (var i in files) {
+      let path: string = join(dir, "/" + files[i]);
+      let type: number = 0;
+      if (statSync(path).isDirectory()) {
+        getFiles(path);
+        files_.push({
+          id: fileInd,
+          type: type,
+          title: files[i],
+          childs: getFiles(path),
+          path: "",
+        });
+      } else {
+        let file = isCanFile(path);
+        if (file) {
+          files_.push({ ...file, id: fileInd });
+        }
       }
+      fileInd++;
     }
-    fileInd++;
-  }
+  } catch (e) {}
   return files_;
 };
 

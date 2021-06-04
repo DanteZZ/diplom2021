@@ -58,31 +58,34 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  mt0: {
+    marginTop: 0,
+  },
 }));
 
 const App: React.FC = () => {
   const classes = useStyles();
 
-  const [configs, setConfigs] = useState({
-    path: "",
-  });
+  const [configLoaded, setConfigLoaded] = useState(false);
+  const [treeDir, setTreeDir] = useState("");
   const [selFile, setSelFile] =
     useState<IFileTree | null | undefined>(undefined);
   const [Files, setFiles] = useState<IFileTree[]>([]);
 
-  const loadConfigs = (): void => {
-    let res = getConfig();
-    if (res) {
-      setConfigs({ ...configs, path: res.path });
-    }
+  const reloadConfigs = (): void => {
+    setConfigLoaded(false);
+    setTimeout(() => {
+      let res = getConfig();
+      if (res) {
+        setTreeDir(res.path);
+      }
+      setConfigLoaded(true);
+    }, 100);
   };
 
   const updateConfigs = (): void => {
-    updateConfig(configs);
-  };
-
-  const updateConfigPath = (path: string): void => {
-    setConfigs({ ...configs, path: path });
+    updateConfig({ path: treeDir });
+    reloadConfigs();
   };
 
   const selectFile = (file: IFileTree): void => {
@@ -101,26 +104,24 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (configs.path !== "") {
-        setFiles(getFiles(configs.path));
+      if (treeDir !== "") {
+        setFiles(getFiles(treeDir));
       }
     }, 200);
-  }, [configs]);
+  }, [configLoaded]);
 
   useEffect(() => {
-    loadConfigs();
+    reloadConfigs();
   }, []);
 
   return (
-    <AppContext.Provider
-      value={{ updateConfigs, updateConfigPath, path: configs.path }}
-    >
+    <AppContext.Provider value={{ updateConfigs, setTreeDir, treeDir }}>
       <ThemeProvider theme={theme}>
         <div className={classes.menuLabel}>
           <Nav />
           <Grid container spacing={3} className={classes.container}>
             <Grid item xs={3} className={classes.item}>
-              <h3>Список</h3>
+              <h3 className={classes.mt0}>{Labels.TreeTitle}</h3>
               <div className={classes.treeWrapper}>
                 {Files.length ? (
                   <Tree files={Files} selFile={selectFile}></Tree>

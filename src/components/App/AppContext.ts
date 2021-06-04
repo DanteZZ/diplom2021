@@ -1,13 +1,13 @@
 import React from "react";
 export type TAppContext = {
   updateConfigs: Function;
-  updateConfigPath: Function;
-  path: string;
+  setTreeDir: Function;
+  treeDir: string;
 };
 
 const AppContext = React.createContext<TAppContext>({
   updateConfigs: () => {},
-  updateConfigPath: (path: string) => {},
-  path: "",
+  setTreeDir: (path: string) => {},
+  treeDir: "",
 });
 export default AppContext;

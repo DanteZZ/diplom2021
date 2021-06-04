@@ -19,7 +19,7 @@ type NavOptions = {
 };
 
 export const NavOptions: React.FC<NavOptions> = ({ open, closeHandler }) => {
-  const { updateConfigs, updateConfigPath, path } = useContext(AppContext);
+  const { updateConfigs, setTreeDir, treeDir } = useContext(AppContext);
   const saveHandler = (): void => {
     updateConfigs();
     closeHandler();
@@ -42,14 +42,14 @@ export const NavOptions: React.FC<NavOptions> = ({ open, closeHandler }) => {
             label={Labels.PathInput}
             fullWidth
             variant="outlined"
-            value={path}
+            value={treeDir}
             onChange={(e) => {
-              updateConfigPath(e.target.value);
+              setTreeDir(e.target.value);
             }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeHandler} color="primary" autoFocus>
+          <Button onClick={saveHandler} color="primary" autoFocus>
             {Labels.Save}
           </Button>
         </DialogActions>
