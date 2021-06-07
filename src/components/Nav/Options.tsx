@@ -47,8 +47,9 @@ export const NavOptions: React.FC<NavOptions> = ({ open, closeHandler }) => {
               setTreeDir(e.target.value);
             }}
           />
+          <br/><br/>
           <DialogContentText>
-            Разработкой занимались: Олег Тагильцев, Пётр Маршал
+          <b>Разработкой занимались:</b><br/> - Олег Тагильцев<br/> - Пётр Маршалкин
           </DialogContentText>
         </DialogContent>
         <DialogActions>
